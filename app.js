@@ -8,9 +8,14 @@ var connector = new builder.ChatConnector();
 var bot = new builder.UniversalBot(connector);
 
 //add in the dialog
-bot.dialog('/', function(session) {
-    session.send('Hello, bot!');
-});
+bot.dialog('/', [
+    function(session) {
+        builder.Prompts.text(session, 'What is your name?');
+    },
+    function(session, results) {
+        session.send('Hello, ' + results.response);
+    }
+]);
 
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
