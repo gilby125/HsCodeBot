@@ -10,7 +10,7 @@ var bot = new builder.UniversalBot(connector);
 //add in the dialog
 bot.dialog('/', [
     function(session) {
-        builder.Prompts.text(session, 'What is your name?');
+        builder.Prompts.text(session, 'What is your Name?');
     },
     function(session, results) {
         session.send('Hello, ' + results.response);
