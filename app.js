@@ -1,5 +1,6 @@
 var builder = require('botbuilder');
 var restify = require('restify');
+var prompts = require('./prompts');
 
 // setup restify server
 var server = restify.createServer();
@@ -30,11 +31,11 @@ bot.dialog('start', function(session) {
 
 bot.dialog('productInfo', [
     function(session) {
-        builder.Prompts.text(session, 'What kind of product are you shipping?');
+        builder.Prompts.text(session, prompts.askProductDescriptionMessage);
     },
     function(session, results) {
-        session.send("I'm sorry, I could not find a chapter that corresponds to the product description you entered: " + results.response + ".");
-        builder.Prompts.choice(session, "Here is a list of chapters you can choose from:", 'Article of Clothing, Chapter 61|Edible Fruit and Nuts, Chapter 8', {listStyle:3});
+        session.send(prompts.productDescriptionErrorMessage + results.response);
+        builder.Prompts.choice(session, prompts.chaptersChoiceMessage, 'Article of Clothing, Chapter 61|Edible Fruit and Nuts, Chapter 8', {listStyle:3});
     },
     function(session, results) {
         switch (results.response.index) {
@@ -53,7 +54,7 @@ bot.dialog('productInfo', [
 
 bot.dialog('articleClothing', [
     function(session) {
-        builder.Prompts.text(session, "The HS code chapter for 'Article of Clothing' is 61. What kind of article of clothing are you shipping?");
+        builder.Prompts.text(session, prompts.chapter61Message);
     },
     function(session, results) {
         session.send('The HS Code for ' + results.response + ' is: ' + '601020');
@@ -62,7 +63,7 @@ bot.dialog('articleClothing', [
 
 bot.dialog('edibleFruitAndNuts', [
     function(session) {
-        builder.Prompts.choice(session, "The HS code chapter for 'Edible Fruit and Nuts' is 08. What kind of edible fruit are you shipping?", 'Apple|Banana|Orange', {listStyle:3});
+        builder.Prompts.choice(session, prompts.chapter8Message, 'Apple|Banana|Orange', {listStyle:3});
     },
     function(session, results) {
         switch (results.response.index) {
