@@ -88,7 +88,42 @@ bot.dialog('edibleFruitAndNuts', [
 
 bot.dialog('test', [
     function(session){
-        session.send('test dialog started');
+        session.send('This is a test dialog');
         console.log('test dialog started');
     }
 ]).triggerAction({matches: /^test/i});
+
+//*******************
+//Banana
+//******************* 
+
+bot.dialog('banana', [
+    function(session) {
+        builder.Prompts.choice(session, 'What type of banana are you shiping?', 'Fresh or Dried|Cooked or Uncooked', {listStyle:3});
+    },
+    function(session, results) {
+        switch (results.response.index) {
+            case 0:
+                session.beginDialog('bananasFreshOrDried');
+                break;
+            case 1:
+                session.beginDialog('bananasCookedOrUncooked');
+                break;
+            default:
+                session.endDialog();
+                break;
+        }
+    }
+]).triggerAction({matches: 'banana'});
+
+bot.dialog('bananasFreshOrDried',
+    function(session) {
+        session.send('The HS code for Fresh or Dried banana(s) is 080390');
+    }
+).triggerAction({matches: 'bananasFreshOrDried'});
+
+bot.dialog('bananasCookedOrUncooked',
+    function(session) {
+        session.send('The HS code for Cooked or Uncooked banana(s) is 081190');
+    }
+).triggerAction({matches: 'bananasCookedOrUncooked'});
