@@ -71,13 +71,13 @@ bot.dialog('edibleFruitAndNuts', [
     function(session, results) {
         switch (results.response.index) {
             case 0:
-                session.send('The HS Code for ' + results.response.entity + ' is: ' + '080810');
+                session.beginDialog('apple');
                 break;
             case 1:
-                session.send('The HS Code for ' + results.response.entity + ' is: ' + '081190');
+                session.beginDialog('banana');
                 break;
             case 2:
-                session.send('The HS Code for ' + results.response.entity + ' is: ' + '081400');
+                session.send('The HS Code for ' + results.response.entity + ' is: ' + '080510');
                 break;
             default:
                 session.endDialog();
@@ -86,12 +86,40 @@ bot.dialog('edibleFruitAndNuts', [
     }
 ]).triggerAction({matches: 'edibleFruitAndNuts'});
 
-bot.dialog('test', [
-    function(session){
-        session.send('This is a test dialog');
-        console.log('test dialog started');
+//*******************
+//Apple
+//******************* 
+
+bot.dialog('apple', [
+    function(session) {
+        builder.Prompts.choice(session, 'What type of apple(s) are you shiping?', 'Fresh|Dried', {listStyle:3});
+    },
+    function(session, results) {
+        switch (results.response.index) {
+            case 0:
+                session.beginDialog('applesFresh');
+                break;
+            case 1:
+                session.beginDialog('applesDried');
+                break;
+            default:
+                session.endDialog();
+                break;
+        }
     }
-]).triggerAction({matches: /^test/i});
+]).triggerAction({matches: 'apple'});
+
+bot.dialog('applesFresh',
+    function(session) {
+        session.send('The HS code for Fresh apple(s) is 080810');
+    }
+).triggerAction({matches: 'applesFresh'});
+
+bot.dialog('applesDried',
+    function(session) {
+        session.send('The HS code for Dried apple(s) is 081330');
+    }
+).triggerAction({matches: 'applesDried'});
 
 //*******************
 //Banana
@@ -127,3 +155,10 @@ bot.dialog('bananasCookedOrUncooked',
         session.send('The HS code for Cooked or Uncooked banana(s) is 081190');
     }
 ).triggerAction({matches: 'bananasCookedOrUncooked'});
+
+bot.dialog('test', [
+    function(session){
+        session.send('This is a test dialog');
+        console.log('test dialog started');
+    }
+]).triggerAction({matches: /^test/i});
