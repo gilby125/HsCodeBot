@@ -102,7 +102,7 @@ bot.dialog('edibleFruitAndNuts', [
 
 bot.dialog('apple', [
     function(session) {
-        builder.Prompts.choice(session, 'What type of apple(s) are you shiping?', 'Fresh|Dried', {listStyle:3});
+        builder.Prompts.choice(session, 'What type of apple(s) are you shipping?', 'Fresh|Dried', {listStyle:3});
     },
     function(session, results) {
         switch (results.response.index) {
