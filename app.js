@@ -9,7 +9,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // create the connector
-var connector = new builder.ChatConnector();
+var connector = new builder.ChatConnector({
+    appId: 'fb41aaa7-c510-4c86-bbc2-a8b84f43fbf9',
+    appPassword: 'ZSfXhbWQW53FB61wZptjEWf'
+});
 
 //create the bot
 var bot = new builder.UniversalBot(connector);
@@ -82,3 +85,10 @@ bot.dialog('edibleFruitAndNuts', [
         }
     }
 ]).triggerAction({matches: 'edibleFruitAndNuts'});
+
+bot.dialog('test', [
+    function(session){
+        session.send('test dialog started');
+        console.log('test dialog started');
+    }
+]).triggerAction({matches: /^test/i});
