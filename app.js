@@ -259,6 +259,3 @@ bot.dialog('womensWoolCoatsAndJackets',
         session.send("The HS code for Women's Wool Coats/Jackets is 610210");
     }
 ).triggerAction({matches: 'womensWoolCoatsAndJackets'});
-
-
-
